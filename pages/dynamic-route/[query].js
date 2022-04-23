@@ -15,6 +15,9 @@ export default function Route() {
 
   let dynamicData = createElement();
   return (
-    <>{dynamicData}</>
+    <>
+      {dynamicData}
+      <button onClick={() => router.push('/')}>Home page!</button>
+    </>
   )
 }

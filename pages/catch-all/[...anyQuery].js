@@ -1,5 +1,10 @@
 import { useRouter } from "next/router"
 
+// I can make the catch all route OPTIONAL by adding a double bracket
+// [[...param]] around my dynamicroute/[[...catchAllParam]].js file
+
+// Caveats can be found here: https://nextjs.org/docs/routing/dynamic-routes
+
 export default function CatchAllRoute() {
   const router = useRouter();
   const queries = router.query.anyQuery
@@ -22,7 +27,7 @@ export default function CatchAllRoute() {
     queryElements = formatQueries(queries);
     resolve(queryElements)
   })
-  
+
   displayQueries
     .then(
       formatted = true
@@ -32,6 +37,7 @@ export default function CatchAllRoute() {
     <>
       <p>The queries are:</p>
       {formatted ? queryElements : 'hello'}
+      <button onClick={() => router.push('/')}>Home page!</button>
     </>
   )
 }

@@ -2,14 +2,44 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import react, { useEffect } from 'react'
 
 export default function Home() {
+  const router = useRouter();
+  const query = router.query;
+  const counter = query.counter;
+  useEffect(() => {
+    router.push('/?counter=10', undefined, { shallow: true })
+  }, []);
+
+  useEffect(() => {
+    console.log('the query has changed!')
+  }, [query])
+
+  console.log(query.counter)
   return (
     <div>
-      Welcome to Next.JS
+      Welcome to Next.JS!
+      <br></br>
+      The current counter is: {query.counter}!
+      <button onClick={() => {
+        router.push(`/?counter=${parseInt(counter) + 1}`, undefined, { shallow: true })
+      }}>Add to counter!</button>
+      <button onClick={() => {
+        router.push(`/?counter=${parseInt(counter) - 1}`, undefined, { shallow: true })
+      }}>Remove from counter!</button>
+      <br></br>
       <Link href={"/dynamic-route/testquery"}>
         <a>Go to Dynamic Route!</a>
       </Link>
+      <br></br>
+      <button onClick={() => router.push('/about')}>About page!</button>
+      <button onClick={() => router.push('/readmore')}>Read More Page!</button>
+      <button onClick={() => router.push('/test')}>Test Page!</button>
+      <button onClick={() => router.push('/posts/23')}>Post: 23!</button>
+      <button onClick={() => router.push('/dynamic-route/same-as-posts')}>Dynamic Routes!</button>
+      <button onClick={() => router.push('/catch-all/firstquery/secondquery/test/fire/your/weapon/hello/world!')}>Catch All Routes!</button>
     </div>
   )
 }
