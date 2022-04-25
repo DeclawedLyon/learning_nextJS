@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.main {
+  height: 120vh;
+}
+.dark {
+  background-color: black;
+  color: white;
+}
+.light {
+  background-color: antiquewhite;
+}

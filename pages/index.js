@@ -3,32 +3,53 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import react, { useEffect } from 'react'
+import react, { useEffect, useState } from 'react'
+import { ErrorButton } from './buttons/ErrorButton'
+import { StateCounter } from './counters/StateCounter'
 
 export default function Home() {
+  const [darkMode, setDarkMode] = useState(false)
+  const [counters, setCounters] = useState([1, 2])
   const router = useRouter();
   const query = router.query;
   const counter = query.counter;
   useEffect(() => {
-    router.push('/?counter=10', undefined, { shallow: true })
+    router.push('/?counter=0', undefined, { shallow: true })
   }, []);
 
-  useEffect(() => {
-    console.log('the query has changed!')
-  }, [query])
+  const addCounter = () => setCounters(prevCounters => [...prevCounters, <StateCounter />])
+  
 
-  console.log(query.counter)
+  const removeCounter = () => {
+    // console.log(counters)
+    setCounters(prevCounters => {
+      const test = prevCounters
+      test.pop()
+      console.log(test);
+      return test;
+    }
+  )
+  }
+  // console.log(query.counter)
   return (
-    <div>
-      Welcome to Next.JS!
+    <div className={`main`}>
+      {/* Welcome to Next.JS! <ErrorButton /> */}
+      <div id={styles.countersContainer}>
+        {counters}
+      </div>
+      <button type='button' onClick={() => addCounter()}>Add Counter</button>
+      <button type='button' onClick={() => removeCounter()}>Remove Counter</button>
+      <StateCounter />
       <br></br>
-      The current counter is: {query.counter}!
-      <button onClick={() => {
-        router.push(`/?counter=${parseInt(counter) + 1}`, undefined, { shallow: true })
-      }}>Add to counter!</button>
-      <button onClick={() => {
-        router.push(`/?counter=${parseInt(counter) - 1}`, undefined, { shallow: true })
-      }}>Remove from counter!</button>
+      <div className={`${darkMode ? 'dark' : 'light'}`}>
+        The current counter is: {query.counter}!
+        <button onClick={() => {
+          router.push(`/?counter=${parseInt(counter) + 1}`, undefined, { shallow: true })
+        }}>Add to counter!</button>
+        <button onClick={() => {
+          router.push(`/?counter=${parseInt(counter) - 1}`, undefined, { shallow: true })
+        }}>Remove from counter!</button>
+      </div>
       <br></br>
       <Link href={"/dynamic-route/testquery"}>
         <a>Go to Dynamic Route!</a>
@@ -104,3 +125,29 @@ export default function Home() {
         </a>
       </footer>
     </div> */}
+
+    // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll)
+
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //     setTimeout(() => {
+  //       setDarkMode(false)
+  //     }, 1000)
+  //   }
+  // })
+
+  // useEffect(() => {
+  //   if (counter % 2 === 0) {
+  //     setDarkMode(true);
+  //     console.log('the counter is even!')
+  //   } else {
+  //     setDarkMode(false)
+  //   }
+  //   console.log('the query has changed!')
+  // }, [counter])
+
+  // const handleScroll = () => {
+  //   setDarkMode(true)
+  //   console.log('scrolling')
+  // }
